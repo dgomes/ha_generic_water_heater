@@ -1,0 +1,10 @@
+{
+  "domain": "generic_water_heater",
+  "documentation": "https://www.home-assistant.io/integrations/generic_water_heater",
+  "issue_tracker": "https://github.com/dgomes/ha_generic_water_heater/issues",
+  "codeowners": ["@dgomes"],
+  "name": "Generic Water Heater",
+  "version": "0.0.1",
+  "dependencies": ["sensor", "switch"],
+  "iot_class": "local_push"
+}

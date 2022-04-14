@@ -12,24 +12,13 @@ generic_water_heater:
     delta_temperature: 5
 ```
 
-{% configuration %}
-heater_switch:
-  description: "`entity_id` for heater switch, must be a toggle device."
-  required: true
-  type: string
-temperature_sensor:
-  description: "`entity_id` for a temperature sensor, temperature_sensor.state must be temperature."
-  required: true
-  type: string
-target_temperature:
-  description: Set initial target temperature. Failure to set this variable will result in target temperature being set to null on startup.
-  required: false
-  type: float
-delta_temperature:
-  description: In order to avoid continuous on/off triggering of the heater a delta_temperature can be defined, where by the heater turns off below the target_temperature minus the delta_temperature.
-  required: false
-  type: float
-{% endconfiguration %}
+### Configuration
+| Option | Required | Type | Description |
+--- | --- | --- |--- 
+heater_switch | True | string | `entity_id` for heater switch, must be a toggle device.
+temperature_sensor | True | string | `entity_id` for a temperature sensor, temperature_sensor.state must be temperature.
+target_temperature | False | float | Set initial target temperature. Failure to set this variable will result in target temperature being set to null on 
+delta_temperature | False | float | In order to avoid continuous on/off triggering of the heater a delta_temperature can be defined, where by the heater turns off below the target_temperature minus the delta_temperature.
 
 Currently the `Generic Water Heater` climate platform supports 'on' and 'off' modes. 
 

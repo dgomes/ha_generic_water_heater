@@ -12,7 +12,27 @@ generic_water_heater:
     delta_temperature: 5
 ```
 
-### Configuration
+## Installation 
+
+Manual
+
+- Place the custom_components folder in your configuration directory (or add its contents to an existing custom_components folder). It should look similar to this:
+
+```
+<config directory>/
+|-- custom_components/
+|   |-- generic_water_heater/
+|       |-- __init__.py
+|       |-- water_heater.py
+```
+
+- Edit your configuration.yaml file according to the example above
+
+## HACS
+
+If you want HACS to handle installation and updates, add _Generic Water Heater_ as a custom repository. In this case, it is recommended that you turn off automatic updates, as above. 
+
+## Configuration
 | Option | Required | Type | Description |
 --- | --- | --- |--- 
 heater_switch | True | string | `entity_id` for heater switch, must be a toggle device.

@@ -136,7 +136,10 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
             self._current_operation = old_state.state
 
         temp_sensor = self.hass.states.get(self.sensor_entity_id)
-        if temp_sensor:
+        if temp_sensor and temp_sensor.state not in (
+            STATE_UNAVAILABLE,
+            STATE_UNKNOWN,
+        ):
             self._current_temperature = float(temp_sensor.state)
 
         heater_switch = self.hass.states.get(self.heater_entity_id)

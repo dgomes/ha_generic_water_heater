@@ -171,12 +171,15 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
     def _async_switch_changed(self, event):
         """Handle heater switch state changes."""
         new_state = event.data.get("new_state")
+        _LOGGER.debug(new_state)
         if new_state is None or new_state.state in (STATE_UNAVAILABLE, STATE_UNKNOWN):
             self._attr_available = False
         else:
             self._attr_available = True
+            _LOGGER.debug("%s became Available", self.name)
             if new_state.state == STATE_ON and self._current_operation == STATE_OFF:
-                self._current_operation = new_state.state
+                self._current_operation = STATE_ON
+                _LOGGER.debug("STATE_ON")
 
         self.async_write_ha_state()
 

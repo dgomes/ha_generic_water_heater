@@ -5,7 +5,7 @@ The `Generic Water Heater` water_heater platform is a Water Heater implemented i
 ```yaml
 # Example configuration.yaml entry
 generic_water_heater:
-  bath water:
+  bath_water:
     heater_switch: switch.dhw_switch
     temperature_sensor: sensor.dhw_temperature
     target_temperature: 50

@@ -1,9 +1,6 @@
 {
     "name": "Generic Water Heater",
     "hacs": "1.6.0",
-    "domains": [
-        "water_heater"
-    ],
     "homeassistant": "2021.12",
     "render_readme": true
 }

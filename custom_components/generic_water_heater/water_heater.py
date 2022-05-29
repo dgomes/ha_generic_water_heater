@@ -191,10 +191,8 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
             abs(self._current_temperature - self._target_temperature) > self._temperature_delta
         ):
             if self._current_temperature < self._target_temperature:
-                _LOGGER.debug("Turning on heater %s", self.heater_entity_id)
                 await self._async_heater_turn_on()
             else:
-                _LOGGER.debug("Turning off heater %s", self.heater_entity_id)
                 await self._async_heater_turn_off()
         self.async_write_ha_state()
 
@@ -204,6 +202,7 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
         if heater is None or heater.state == STATE_ON:
             return
 
+        _LOGGER.debug("Turning on heater %s", self.heater_entity_id)
         data = {ATTR_ENTITY_ID: self.heater_entity_id}
         await self.hass.services.async_call(
             HA_DOMAIN, SERVICE_TURN_ON, data, context=self._context
@@ -215,6 +214,7 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
         if heater is None or heater.state == STATE_OFF:
             return
 
+        _LOGGER.debug("Turning off heater %s", self.heater_entity_id)
         data = {ATTR_ENTITY_ID: self.heater_entity_id}
         await self.hass.services.async_call(
             HA_DOMAIN, SERVICE_TURN_OFF, data, context=self._context

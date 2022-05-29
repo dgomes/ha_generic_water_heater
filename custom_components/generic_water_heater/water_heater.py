@@ -188,13 +188,14 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
         if self._current_operation == STATE_OFF or self._current_temperature is None:
             pass
         elif (
-            abs(self._current_temperature - self._target_temperature) <  self._temperature_delta
+            abs(self._current_temperature - self._target_temperature) > self._temperature_delta
         ):
-            _LOGGER.debug("Turning on heater %s", self.heater_entity_id)
-            await self._async_heater_turn_on()
-        else:
-            _LOGGER.debug("Turning off heater %s", self.heater_entity_id)
-            await self._async_heater_turn_off()
+            if self._current_temperature < self._target_temperature:
+                _LOGGER.debug("Turning on heater %s", self.heater_entity_id)
+                await self._async_heater_turn_on()
+            else:
+                _LOGGER.debug("Turning off heater %s", self.heater_entity_id)
+                await self._async_heater_turn_off()
         self.async_write_ha_state()
 
     async def _async_heater_turn_on(self):

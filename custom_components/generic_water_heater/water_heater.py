@@ -180,6 +180,9 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
             if new_state.state == STATE_ON and self._current_operation == STATE_OFF:
                 self._current_operation = STATE_ON
                 _LOGGER.debug("STATE_ON")
+            elif new_state.state == STATE_OFF and self._current_operation == STATE_ON:
+                self._current_operation = STATE_OFF
+                _LOGGER.debug("STATE_OFF")
 
         self.async_write_ha_state()
 

@@ -21,7 +21,7 @@ from homeassistant.core import DOMAIN as HA_DOMAIN, callback
 from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers.restore_state import RestoreEntity
 
-from . import CONF_HEATER, CONF_SENSOR, CONF_TARGET_TEMP, CONF_TEMP_DELTA
+from . import CONF_HEATER, CONF_SENSOR, CONF_TARGET_TEMP, CONF_TEMP_DELTA, CONF_TEMP_MIN, CONF_TEMP_MAX
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -41,11 +41,13 @@ async def async_setup_platform(
         sensor_entity_id = config[CONF_SENSOR]
         target_temp = config.get(CONF_TARGET_TEMP)
         temp_delta = config.get(CONF_TEMP_DELTA)
+        min_temp = config.get(CONF_TEMP_MIN)
+        max_temp = config.get(CONF_TEMP_MAX)
         unit = hass.config.units.temperature_unit
 
         entities.append(
             GenericWaterHeater(
-                name, heater_entity_id, sensor_entity_id, target_temp, temp_delta, unit
+                name, heater_entity_id, sensor_entity_id, target_temp, temp_delta, min_temp, max_temp, unit
             )
         )
 
@@ -56,7 +58,7 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
     """Representation of a generic water_heater device."""
 
     def __init__(
-        self, name, heater_entity_id, sensor_entity_id, target_temp, temp_delta, unit
+        self, name, heater_entity_id, sensor_entity_id, target_temp, temp_delta, min_temp, max_temp, unit
     ):
         """Initialize the water_heater device."""
         self._attr_name = name
@@ -65,6 +67,8 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
         self._support_flags = SUPPORT_FLAGS_HEATER
         self._target_temperature = target_temp
         self._temperature_delta = temp_delta
+        self._min_temp = min_temp
+        self._max_temp = max_temp
         self._unit_of_measurement = unit
         self._current_operation = STATE_ON
         self._current_temperature = None
@@ -105,6 +109,7 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
         """Return the list of available operation modes."""
         return self._operation_list
 
+    @property
     async def async_set_temperature(self, **kwargs):
         """Set new target temperatures."""
         self._target_temperature = kwargs.get(ATTR_TEMPERATURE)

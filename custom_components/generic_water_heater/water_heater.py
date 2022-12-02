@@ -4,6 +4,8 @@ import logging
 from homeassistant.components.water_heater import (
     SUPPORT_OPERATION_MODE,
     SUPPORT_TARGET_TEMPERATURE,
+    DEFAULT_MIN_TEMP,
+    DEFAULT_MAX_TEMP,
     WaterHeaterEntity,
 )
 from homeassistant.const import (
@@ -16,10 +18,12 @@ from homeassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
+    TEMP_FAHRENHEIT,
 )
 from homeassistant.core import DOMAIN as HA_DOMAIN, callback
 from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers.restore_state import RestoreEntity
+from homeassistant.util.temperature import convert
 
 from . import CONF_HEATER, CONF_SENSOR, CONF_TARGET_TEMP, CONF_TEMP_DELTA, CONF_TEMP_MIN, CONF_TEMP_MAX
 
@@ -110,6 +114,21 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
         return self._operation_list
 
     @property
+    def min_temp(self):
+        """Return the minimum targetable temperature."""
+        """If the min temperature is not set on the config, returns the HA default for Water Heaters."""
+        if not self._min_temp:
+            self._min_temp = convert(DEFAULT_MIN_TEMP, TEMP_FAHRENHEIT, self._unit_of_measurement)
+        return self._min_temp
+
+    @property
+    def max_temp(self):
+        """Return the maximum targetable temperature."""
+        """If the max temperature is not set on the config, returns the HA default for Water Heaters."""
+        if not self._max_temp:
+            self._max_temp = convert(DEFAULT_MAX_TEMP, TEMP_FAHRENHEIT, self._unit_of_measurement)
+        return self._max_temp
+
     async def async_set_temperature(self, **kwargs):
         """Set new target temperatures."""
         self._target_temperature = kwargs.get(ATTR_TEMPERATURE)

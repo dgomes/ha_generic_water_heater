@@ -23,7 +23,11 @@ from homeassistant.const import (
 from homeassistant.core import DOMAIN as HA_DOMAIN, callback
 from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers.restore_state import RestoreEntity
-from homeassistant.util.temperature import convert
+
+try:
+    from homeassistant.util.unit_conversion import TemperatureConverter as convert
+except ImportError or ModuleNotFoundError:
+    from homeassistant.util.temperature import convert as convert
 
 from . import CONF_HEATER, CONF_SENSOR, CONF_TARGET_TEMP, CONF_TEMP_DELTA, CONF_TEMP_MIN, CONF_TEMP_MAX
 

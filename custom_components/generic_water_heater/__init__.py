@@ -16,6 +16,8 @@ CONF_HEATER = "heater_switch"
 CONF_SENSOR = "temperature_sensor"
 CONF_TARGET_TEMP = "target_temperature"
 CONF_TEMP_DELTA = "delta_temperature"
+CONF_TEMP_MIN = "min_temp"
+CONF_TEMP_MAX = "max_temp"
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -27,6 +29,8 @@ CONFIG_SCHEMA = vol.Schema(
                         vol.Required(CONF_SENSOR): cv.entity_id,
                         vol.Optional(CONF_TEMP_DELTA): vol.Coerce(float),
                         vol.Optional(CONF_TARGET_TEMP): vol.Coerce(float),
+                        vol.Optional(CONF_TEMP_MIN): vol.Coerce(float),
+                        vol.Optional(CONF_TEMP_MAX): vol.Coerce(float),
                     }
                 )
             }

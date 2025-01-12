@@ -2,11 +2,8 @@
 import logging
 
 from homeassistant.components.water_heater import (
-    SUPPORT_OPERATION_MODE,
-    SUPPORT_TARGET_TEMPERATURE,
-    DEFAULT_MIN_TEMP,
-    DEFAULT_MAX_TEMP,
     WaterHeaterEntity,
+    WaterHeaterEntityFeature,
 )
 from homeassistant.const import (
     ATTR_ENTITY_ID,
@@ -33,7 +30,6 @@ from . import CONF_HEATER, CONF_SENSOR, CONF_TARGET_TEMP, CONF_TEMP_DELTA, CONF_
 
 _LOGGER = logging.getLogger(__name__)
 
-SUPPORT_FLAGS_HEATER = SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE
 DEFAULT_NAME = "Generic Water Heater"
 
 
@@ -72,7 +68,7 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
         self._attr_name = name
         self.heater_entity_id = heater_entity_id
         self.sensor_entity_id = sensor_entity_id
-        self._support_flags = SUPPORT_FLAGS_HEATER
+        self._attr_supported_features = WaterHeaterEntityFeature.TARGET_TEMPERATURE | WaterHeaterEntityFeature.OPERATION_MODE
         self._target_temperature = target_temp
         self._temperature_delta = temp_delta
         self._min_temp = min_temp
@@ -86,11 +82,6 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
         ]
         self._attr_available = False
         self._attr_should_poll = False
-
-    @property
-    def supported_features(self):
-        """Return the list of supported features."""
-        return self._support_flags
 
     @property
     def current_temperature(self):

@@ -65,6 +65,7 @@ class GenericWaterHeater(WaterHeaterEntity, RestoreEntity):
     ):
         """Initialize the water_heater device."""
         self._attr_name = name
+        self._attr_unique_id = f"generic_water_heater_{name.lower().replace(' ', '_')}"
         self.heater_entity_id = heater_entity_id
         self.sensor_entity_id = sensor_entity_id
         self._attr_supported_features = WaterHeaterEntityFeature.TARGET_TEMPERATURE | WaterHeaterEntityFeature.OPERATION_MODE
